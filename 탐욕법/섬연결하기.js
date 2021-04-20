@@ -15,16 +15,67 @@
 
 //미완성
 //노드로 연결해서 가장 적은 값을 택해나가면서 싸이클이 생기는지 확인?, 그리고 전체 섬이 연결 되면 종료
-const costs = [[0,1,1],[0,2,2],[1,2,5],[1,3,1],[2,3,8]];
-const island_array = [[]];
+//다익스트라 알고리즘?
 
+//아직 미완성
+//한 정점에서 모든 정점 지나는 비용을 더하는게 아니라 
+//그냥 쭉 통과할때의 최소비용.
+const n = 4;
+const costs = [[0,1,1],
+               [0,2,2],
+               [1,2,5],
+               [1,3,1],
+               [2,3,8]];
+const distance_array = new Array(n);
+const distance_min = new Array(n);
+const check_array = new Array(n);
+const INF = Infinity;
+
+    for(let i = 0;i<n;i++){
+        distance_array[i] = new Array(n);
+        for(let j = 0;j<n;j++){
+            if(i!==j)distance_array[i][j] = INF;
+            else distance_array[i][j] = 0;
+        }
+    }
     for(let i = 0;i<costs.length;i++){
         const m = costs[i][0];
         const n = costs[i][1];
         const val = costs[i][2];
-        console.log(typeof val);
-        island_array[m][n] = val;
-        island_array[n][m] = val;
+        distance_array[m][n] = val;
+        distance_array[n][m] = val;
+    }
+    for(let i = 0;i<n;i++){
+        distance_min[i] = distance_array[0][i];
+        check_array[i] = false;
+    }
+    check_array[0] = true; //0번 정점에서 부터 시작.
+    //다익스트라 알고리즘을 위한 초기화.
+    for(let i = 1;i<n;i++){
+        if(check_array[i]===true)continue;
+        let min = distance_min[i];
+        let j;
+        let check_point=i;
+        for(j = 1;j<n;j++){
+            if(min>distance_min[j] && check_array[j]===false){
+                min=distance_min[j];
+                check_point=j;
+            }
+        }
+        console.log(check_point);
+        check_array[check_point]=true;
+        for(let k = 0;k<n;k++){
+            if(k!==check_point)
+            distance_min[k] = Math.min(distance_min[k],distance_array[check_point][k]);
+            //+distance_min[check_point] 여기서는 이것을뺌
+        }
+        i=1;
+        if(check_array.every((check) => check===true))break;
     }
 
-    console.log(island_array[0][1]);
+    console.log(distance_array);
+    console.log(distance_min);
+    console.log(check_array);
+
+
+
