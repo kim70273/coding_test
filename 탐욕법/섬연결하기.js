@@ -54,9 +54,8 @@ const INF = Infinity;
     for(let i = 1;i<n;i++){
         if(check_array[i]===true)continue;
         let min = distance_min[i];
-        let j;
         let check_point=i;
-        for(j = 1;j<n;j++){
+        for(let j = 1;j<n;j++){
             if(min>distance_min[j] && check_array[j]===false){
                 min=distance_min[j];
                 check_point=j;
