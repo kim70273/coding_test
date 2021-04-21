@@ -64,7 +64,7 @@ const INF = Infinity;
         console.log(check_point);
         check_array[check_point]=true;
         for(let k = 0;k<n;k++){
-            if(k!==check_point)
+            if(k!==check_point && check_array[k]===false )
             distance_min[k] = Math.min(distance_min[k],distance_array[check_point][k]);
             //+distance_min[check_point] 여기서는 이것을뺌
         }
