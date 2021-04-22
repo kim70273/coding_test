@@ -9,12 +9,13 @@
 // numbers의 원소는 0 이상 1,000 이하입니다.
 // 정답이 너무 클 수 있으니 문자열로 바꾸어 return 합니다.
 
-//맨앞자리 숫자가 같을 경우 어떤 기준? or 다른 해결 방법?
-const nums = [2344, 134, 3, 499];
-const string_nums = nums.map((num) => num.toString());
-string_nums.sort((a,b)=> {
-    if(b.charAt(0)!==a.charAt(0)) return b.charAt(0)-a.charAt(0);
-    else return b-a;
-});
-const a = string_nums.join('');
-console.log(a);
+function solution(numbers) {
+    var answer = '';
+    const string_nums = numbers.map((num) => num.toString());
+    string_nums.sort((a,b)=> {
+    return a+b > b+a ? -1 : 1;
+    });
+    if(string_nums.every((num) => num==='0')) answer = '0';
+    else answer = string_nums.join('');
+    return answer;
+}
