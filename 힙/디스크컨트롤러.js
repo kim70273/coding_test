@@ -32,7 +32,7 @@ function solution(jobs) {
     // 0 0 2 3 4 (들어온 시간)
     // 2 5 3 1 1 (걸리는 시간)
     let sum = 0;
-    
+    const n = jobs.length;
     let time = 0;
     while(jobs.length>0){
         const executable_jobs = jobs.filter((job) => {
@@ -44,7 +44,10 @@ function solution(jobs) {
         const targetIndex = jobs.indexOf(target);
         jobs.splice(targetIndex,1);
         time+=target[1];
+        console.log(time, target[0])
+        sum+=(time-target[0]);
     }
+    answer = (int)(sum/n);
     //이렇게 하면 시간이 너무 오래 걸리나...
     return answer;
 }
