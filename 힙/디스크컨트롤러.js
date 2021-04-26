@@ -25,3 +25,26 @@
 // 각 작업에 대해 작업이 요청되는 시간은 0 이상 1,000 이하입니다.
 // 각 작업에 대해 작업의 소요시간은 1 이상 1,000 이하입니다.
 // 하드디스크가 작업을 수행하고 있지 않을 때에는 먼저 요청이 들어온 작업부터 처리합니다.
+
+function solution(jobs) {
+    var answer = 0;
+    console.log(jobs)
+    // 0 0 2 3 4 (들어온 시간)
+    // 2 5 3 1 1 (걸리는 시간)
+    let sum = 0;
+    
+    let time = 0;
+    while(jobs.length>0){
+        const executable_jobs = jobs.filter((job) => {
+            return job[0] <= time;
+        });
+        executable_jobs.sort((a, b) => a[1]-b[1]);
+        //실행 가능한 job을 걸리는 시간 적은거 대로 정렬 
+        const target = executable_jobs[0];
+        const targetIndex = jobs.indexOf(target);
+        jobs.splice(targetIndex,1);
+        time+=target[1];
+    }
+    //이렇게 하면 시간이 너무 오래 걸리나...
+    return answer;
+}
