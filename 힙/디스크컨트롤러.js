@@ -37,28 +37,25 @@
     //현재시간 이하인것을찾으면 그것을 작업시간을 현재시간에 더하고 그 원소를 삭제
     // 쭉 둘러봐도 현재시간 이하가 없으면 시간을 +1
 
-function solution(jobs) {
-    var answer = 0;
-    console.log(jobs)
-    // 0 0 2 3 4 (들어온 시간)
-    // 2 5 3 1 1 (걸리는 시간)
-    let sum = 0;
-    const n = jobs.length;
-    let time = 0;
-    while(jobs.length>0){
-        const executable_jobs = jobs.filter((job) => {
-            return job[0] <= time;
-        });
-        executable_jobs.sort((a, b) => a[1]-b[1]);
-        //실행 가능한 job을 걸리는 시간 적은거 대로 정렬 
-        const target = executable_jobs[0];
-        const targetIndex = jobs.indexOf(target);
-        jobs.splice(targetIndex,1);
-        time+=target[1];
-        console.log(time, target[0])
-        sum+=(time-target[0]);
+    function solution(jobs) {
+        var answer = 0;
+        let sum = 0;
+        let time = 0;
+        const len = jobs.length;
+        jobs.sort((a,b) => a[1]-b[1]);
+        while(jobs.length>0){
+            let decision = true;
+            for(let i =0; i<jobs.length;i++){
+                if(jobs[i][0]<=time){
+                    time+=jobs[i][1];
+                    sum+=(time-jobs[i][0])
+                    jobs.splice(i,1);
+                    decision = false;
+                    break;
+                }
+            }
+            if(decision) time++;
+        }
+        answer=(sum/len);
+        return Math.floor(answer);
     }
-    answer = (int)(sum/n);
-    //이렇게 하면 시간이 너무 오래 걸리나...
-    return answer;
-}
