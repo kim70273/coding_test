@@ -28,9 +28,45 @@ function solution(operations) {
         
         if(cmt[0] === 'D'){//삭제연산
             if(cmt[1] === '1'){
+                while(!minHeap.includes(maxHeap[1])){
                 if(maxHeap.length<=1)break;
+                if(maxHeap.length===2){
+                    maxHeap.pop();
+                    break;
+                }
                 //최대값 삭제
                 let i = 1;
+                //만약 maxHeap[1]이 이미 지웠던거라서 !minHeap.includes(maxHeap[1])
+                //이라면?? while(!minHeap.includes(maxHeap[1])) 를 돌려준다음에 다시 삭제
+                maxHeap[1] = maxHeap.pop();
+                while(true){
+                    if(maxHeap[i]<maxHeap[i*2] || maxHeap[i]<maxHeap[i*2+1]){
+                        if(maxHeap[i*2]>maxHeap[i*2+1]){
+                            const temp = maxHeap[i];
+                            maxHeap[i] = maxHeap[i*2];
+                            maxHeap[i*2] = temp;
+                            i = i*2;
+                        }else{
+                            const temp = maxHeap[i];
+                            maxHeap[i] = maxHeap[i*2+1];
+                            maxHeap[i*2+1] = temp;
+                            i = i*2+1;
+                        }
+                    }else{
+                        break;
+                    }
+                }
+                    
+                }
+                if(maxHeap.length<=1)break;
+                if(maxHeap.length===2){
+                    maxHeap.pop();
+                    break;
+                }
+                //최대값 삭제
+                let i = 1;
+                //만약 maxHeap[1]이 이미 지웠던거라서 !minHeap.includes(maxHeap[1])
+                //이라면?? while(!minHeap.includes(maxHeap[1])) 를 돌려준다음에 다시 삭제
                 maxHeap[1] = maxHeap.pop();
                 while(true){
                     if(maxHeap[i]<maxHeap[i*2] || maxHeap[i]<maxHeap[i*2+1]){
@@ -50,8 +86,13 @@ function solution(operations) {
                     }
                 }
             }else{
+                while(!maxHeap.includes(minHeap[1])){
                 if(minHeap.length<=1)break;
-                minHeap.pop();//최소값 삭제.
+                if(minHeap.length===2){
+                    minHeap.pop();
+                    break;
+                }
+                //최소값 삭제.
                 let i = 1;
                 minHeap[1] = minHeap.pop();
                 while(true){
@@ -70,14 +111,40 @@ function solution(operations) {
                     }else{
                         break;
                     }
+                }
             }
+                if(minHeap.length<=1)break;
+                if(minHeap.length===2){
+                    minHeap.pop();
+                    break;
+                }
+                //최소값 삭제.
+                let i = 1;
+                minHeap[1] = minHeap.pop();
+                while(true){
+                    if(minHeap[i]>minHeap[i*2] || minHeap[i]>minHeap[i*2+1]){
+                        if(minHeap[i*2]<minHeap[i*2+1]){
+                            const temp = minHeap[i];
+                            minHeap[i] = minHeap[i*2];
+                            minHeap[i*2] = temp;
+                            i = i*2;
+                        }else{
+                            const temp = minHeap[i];
+                            minHeap[i] = minHeap[i*2+1];
+                            minHeap[i*2+1] = temp;
+                            i = i*2+1;
+                        }
+                    }else{
+                        break;
+                    }
+                }
+            
         }
         }else{//삽입연산
             let n = maxHeap.length;
             let m = minHeap.length;
             maxHeap[n] = cmt[1]*1;//최대힙
             minHeap[m] = cmt[1]*1;//최소힙
-            
             while(n>1){
                 if(maxHeap[n]>maxHeap[Math.floor(n/2)]){
                     const temp = maxHeap[n];
@@ -90,7 +157,7 @@ function solution(operations) {
             }
             
             while(m>1){
-                if(minHeap[m]>minHeap[Math.floor(m/2)]){
+                if(minHeap[m]<minHeap[Math.floor(m/2)]){
                     const temp = minHeap[m];
                     minHeap[m] = minHeap[Math.floor(m/2)];
                     minHeap[Math.floor(m/2)] = temp;
@@ -102,7 +169,7 @@ function solution(operations) {
             
         }
     }
-    
+    console.log(maxHeap.includes(minHeap[1]))
     
     if(maxHeap.length>1 && minHeap.length>1){
         answer.push(maxHeap[1], minHeap[1]);
@@ -110,4 +177,4 @@ function solution(operations) {
         answer.push(0, 0);
     }
     return answer;
-}
+}//(최대)40 30 10 /// 10 20 30 40 
