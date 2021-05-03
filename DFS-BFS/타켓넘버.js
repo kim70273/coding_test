@@ -13,3 +13,21 @@
 // 주어지는 숫자의 개수는 2개 이상 20개 이하입니다.
 // 각 숫자는 1 이상 50 이하인 자연수입니다.
 // 타겟 넘버는 1 이상 1000 이하인 자연수입니다.
+
+function solution(numbers, target) {
+    var answer = 0;
+    const len = numbers.length
+    let i = 0;
+    let sum = 0;
+    function dfs(i, sum){
+    if(i===len){
+        if(sum===target)answer++;
+        return;
+    }
+    dfs(i+1,sum+numbers[i]);
+    dfs(i+1,sum-numbers[i]);
+}
+    dfs(i, sum);
+    return answer;
+    
+}
