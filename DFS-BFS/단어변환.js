@@ -15,3 +15,35 @@
 // words에는 3개 이상 50개 이하의 단어가 있으며 중복되는 단어는 없습니다.
 // begin과 target은 같지 않습니다.
 // 변환할 수 없는 경우에는 0를 return 합니다.
+
+function solution(begin, target, words) {
+    var answer = 0;
+    function dfs(bigin, sum){
+        if(bigin === target) {
+            answer = sum;
+            return;
+        }
+        
+        for(let i=0;i<words.length;i++){
+            let gap = 0;
+            for(let j=0;words[i].length;j++){
+                if(begin[j]!==words[i][j])gap++;
+            }
+            if(gap===1)dfs(words[i],sum++);
+        }
+        
+    }
+    //hit과 1차이 hot 
+    //.    2.   dot lot
+    //     3.   dog 
+    // 4.       cog log 
+    // begin 단어 돌면서 하나 차이나는 것에 대해서만 dfs실행!
+    if(!words.includes(target)){
+        answer = 0;
+    }
+    else{
+        let sum = 1
+        dfs(begin,sum)
+    }
+    return answer;
+}
