@@ -18,32 +18,31 @@
 
 function solution(begin, target, words) {
     var answer = 0;
-    function dfs(bigin, sum){
-        if(bigin === target) {
-            answer = sum;
-            return;
-        }
-        
-        for(let i=0;i<words.length;i++){
-            let gap = 0;
-            for(let j=0;words[i].length;j++){
-                if(begin[j]!==words[i][j])gap++;
-            }
-            if(gap===1)dfs(words[i],sum++);
-        }
-        
-    }
-    //hit과 1차이 hot 
-    //.    2.   dot lot
-    //     3.   dog 
-    // 4.       cog log 
-    // begin 단어 돌면서 하나 차이나는 것에 대해서만 dfs실행!
+    //begin부터 시작해서 단어 하나 차이나는것에 대해서 
+    //큐에넣음. 또 단어 하나씩 빼서 단어 하나 차이나는것 큐에 넣음
+    // 큐에서 뺀 단어가 target 단어 일때 까지 반복.(BFS를 활용한 문제)
     if(!words.includes(target)){
         answer = 0;
     }
     else{
-        let sum = 1
-        dfs(begin,sum)
+        let count = 0
+        const queue = [];
+        queue.push([begin,count]);//[처음단어, 0]
+        while(queue.length>0){
+            const word = queue.shift();//큐 맨앞을 꺼냄.
+            if(word[0]===target){
+                answer=word[1];
+                break;
+            }
+            count=word[1]+1;
+            for(let i=0;i<words.length;i++){
+                let gap = 0;
+                for(let j=0;j<words[i].length;j++){
+                    if(word[0][j]!==words[i][j])gap++;
+                }
+                if(gap===1) queue.push([words[i],count])
+            }
+        }
     }
     return answer;
 }
