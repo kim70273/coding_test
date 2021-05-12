@@ -10,26 +10,46 @@
 // 주어진 항공권은 모두 사용해야 합니다.
 // 만일 가능한 경로가 2개 이상일 경우 알파벳 순서가 앞서는 경로를 return 합니다.
 // 모든 도시를 방문할 수 없는 경우는 주어지지 않습니다.
+
 function solution(tickets) {
     var answer = [];
+    const len = tickets.length;
+    let find = false;
+    const queue = [];
+    const ticketsUse = tickets.map((ticket) =>{
+        ticket.push(false);
+        return ticket;
+    })
     
-    function dfs(start){
-        const temp = tickets.filter((ticket) => ticket[0]===start);
-        temp.sort((a,b) => a[1]<b[1] ? -1 : a[1] > b[1] ? 1:0);
-        for(let i=0;i<temp.length;i++){
-            const t = temp[i][1]
-            if(t!==false){
-                temp[i][1]=false;
-                answer.push(t);
-                dfs(t);
+    function dfs(start,queue,count){
+        const startList = ticketsUse.filter((ticket) => ticket[0]===start);
+        
+        if(count===len){
+            answer=queue.slice();
+            find=true;
+            startList.forEach((ticket) => {
+                if(ticket[2]===false)answer.push(ticket[1]);
+            })
+            return;
+        }//조건에 맞게 항공권을 모두 소비했을때.
+        
+        startList.sort((a,b) => a[1]<b[1] ? -1 : a[1] > b[1] ? 1:0);
+        
+        for(let i=0;i<startList.length;i++){
+            const index = ticketsUse.indexOf(startList[i]);
+            if(startList[i][2]===false){
+                ticketsUse[index][2]=true;
+                queue.push(startList[i][1]);
+                dfs(startList[i][1],queue, count+1);
+                queue.pop();
+                ticketsUse[index][2]=false;
+                if(find)break;
             }
         }
     }
-    answer.push("ICN");
-    dfs("ICN");
-    //DFS를 이용
-    //출발점과 [0]번원소가 같은 원소를 [1]번 원소 기준으로 오름차순 정렬
-    //원소를 돌면서 쓰지 않은 티켓이라면 dfs 수행
-    //쓴티켓은 [1]번 원소를 true로 바꿈
+    
+    queue.push("ICN")
+    dfs("ICN", queue,1);
+    
     return answer;
 }
