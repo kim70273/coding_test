@@ -53,45 +53,27 @@
 
 function solution(record) {
     const answer = [];
-    const result = [];
-    //record 하나씩 확인하면서 동작과 아이디, 닉네임을 result에 넣는다.
-    //Enter과 Change가 나오면 result에 동일아이디의 닉네임을 바꾼다.
+    const id_Nic = {}
     
     record.forEach((action) => {
        const a = action.split(" ");
         
         if(a[0]==="Enter"){
-            for(let i=0;i<result.length;i++){
-                if(result[i][1]===a[1]){
-                    result[i][2]=a[2];//닉네임 최신거로 변경
-                }
-            }
             const temp = [];
-            temp.push(a[0],a[1],a[2]);//행동 아이디 닉네임
-            result.push(temp);
+            temp.push(a[1],"님이 들어왔습니다.");
+            answer.push(temp);
+            id_Nic[a[1]] = a[2];
         }else if(a[0]==="Change"){
-            for(let i=0;i<result.length;i++){
-                if(result[i][1]===a[1]){
-                    result[i][2]=a[2];//닉네임 최신거로 변경
-                }
-            }
+            id_Nic[a[1]] = a[2];
         }else{
             const temp = [];
-            let nicName='';
-            for(let i=0;i<result.length;i++){
-                if(result[i][1]===a[1]){
-                    nicName=result[i][2];//닉네임을 가져옴
-                    break;
-                }
-            }
-            temp.push(a[0],a[1],nicName);
-            result.push(temp);//나가기는 그냥 기록
+            temp.push(a[1],"님이 나갔습니다.");
+            answer.push(temp);
         }
-    });//result 완성
-   
-    result.forEach((action) => {
-       if(action[0]==="Enter") answer.push(action[2]+"님이 들어왔습니다.");
-        else answer.push(action[2]+"님이 나갔습니다.");
     });
-    return answer;
+    
+    const result = answer.map((action) => {
+        return id_Nic[action[0]]+action[1];
+    });
+    return result;
 }
