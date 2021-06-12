@@ -12,21 +12,21 @@
 // 문자열의 길이 : 1,000,000이하의 자연수
 // 문자열은 모두 소문자로 이루어져 있습니다.
 
-function solution(s)
-{
-    var answer = 0;
-    const array = s.split("");
+// function solution(s)
+// {
+//     var answer = 0;
+//     const array = s.split("");
 
-    for(let i=0;i<array.length-1;i++){
-        if(array[i]===array[i+1]){
-            array.splice(i,2);
-            i-=2;
-        }
-    }
-    if(array.length===0)answer=1;
+//     for(let i=0;i<array.length-1;i++){
+//         if(array[i]===array[i+1]){
+//             array.splice(i,2);
+//             i-=2;
+//         }
+//     }
+//     if(array.length===0)answer=1;
 
-    return answer;
-}
+//     return answer;
+// }
 
 // function solution(s)
 // {
@@ -42,3 +42,24 @@ function solution(s)
 
 //     return answer;
 // }
+
+function solution(s)
+{
+    if(s.length%2!==0) return 0;//모두 삭제하는것이 불가능.
+    var answer = [];//입력을 받을 곳
+    const array = [...s];
+
+    for(let i=0;i<array.length;i++){
+        if(answer[answer.length-1]===array[i]){
+            answer.pop();
+            continue;
+        }
+        
+        answer.push(array[i]);
+        
+        if(answer.length > array.length-i-1) return 0;
+        //지워야할 입력이 더 많다면 다 지우지 못한다.
+    }
+    if(answer.length===0) return 1;//지워야할 입력이 다 지워 짐
+    else return 0;
+}
