@@ -17,42 +17,32 @@
 // s는 알파벳 소문자로만 이루어져 있습니다.
 
 function solution(s) {
-    var answer = '';
-    let unit=1;
+    let minLength=s.length;
     
-    //몇개씩 자를지 결정
-    for(let i=2; i<=s.length/2; i++){
-        for(let j=0; j<s.length-i; j+=i){
+    //1개단위 자르는것부터 s.length/2개 단위씩 자르는것까지 확인 후
+    //그 중 제일 적은 길이를 minLength에 저장한다.
+    for(let i=1;i<=s.length/2;i++){
+        let count = 1;
+        let str = "";
+        for(let j=0;j<s.length;j+=i){
             if(s.substr(j,i)===s.substr(j+i,i)){
-                unit=i;
-                break;
+                count++;
+            } else {
+                if(count>1){
+                    str=str+count+s.substr(j,i);
+                    count = 1; 
+                } else {
+                    str=str+s.substr(j,i);
+                }
             }
-        }
-    }
-    
-    //압축시작
-    let count=1;
-    for(let i=0;i<s.length-unit;i+=unit){
-        if(s.substr(i,unit)===s.substr(i+unit,unit)){
-            count++;
-        }else{
-            if(count!==1){
-                answer+=count+s.substr(i,unit);
-                count=1;
-            }else{
-                answer+=s.substr(i,unit);
-            }
-        }
         
-        if(i+unit===s.length-unit){//10 10-3=7
-            if(count!==1){
-                answer+=count+s.substr(i,unit);
-            }else{
-                answer+=s.substr(i+unit);
-            }
         }
+        if(str.length<minLength) {
+            console.log(str);
+            minLength = str.length;
+        }
+        str="";
     }
     
-    console.log(unit, answer);
-    return answer.length;
+    return minLength;
 }
